@@ -200,7 +200,6 @@ const char help_str[] = "Usage: %s [OPTIONS] \nWhere OPTIONS are:\n"
 "       --statsinterval 1000      \\\n"
 "       --verbose-level 6         \n";
 
-/*
 static uint64_t risttools_convertRTPtoNTP(uint32_t i_rtp)
 {
 	uint64_t i_ntp;
@@ -209,7 +208,6 @@ static uint64_t risttools_convertRTPtoNTP(uint32_t i_rtp)
     i_ntp /= clock;
 	return i_ntp;
 }
-*/
 
 #if HAVE_SRP_SUPPORT
 	char *srpfile = NULL;
