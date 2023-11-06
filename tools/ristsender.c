@@ -251,7 +251,7 @@ static void input_udp_recv(struct evsocket_ctx *evctx, int fd, short revents, vo
 		data_block.ts_ntp = 0;
 		data_block.flags = 0;
 		// Get recv buf after ip header
-		uint8_t *recv_buf_after_ipheader = *(recv_buf + ipheader_bytes);
+		uint8_t *recv_buf_after_ipheader = (recv_buf + ipheader_bytes);
 		if (callback_object->udp_config->rtp_timestamp && recv_bufsize > 12)
 		{
 			// Extract timestamp from rtp header
