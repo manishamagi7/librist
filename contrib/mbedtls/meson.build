@@ -104,3 +104,5 @@ if builtin_mbedtls and not mbedcrypto_lib_found
     #my_mbedcrypto_lib = static_library('mbedcrypto')
     #mbedcrypto_lib = declare_dependency(link_with : my_mbedcrypto_lib, include_directories : my_mbedcrypto_inc)
 endif
+# Setting MBEDTLS_HAS_MPI_RANDOM to false so that crypto related dependencies won't cause any issue
+cdata.set10('MBEDTLS_HAS_MPI_RANDOM', false)
