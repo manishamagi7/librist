@@ -263,9 +263,9 @@ static int cb_recv(void *arg, struct rist_data_block *b)
 					if (!callback_object->first_seqnum_received) {
 						callback_object->first_seqnum_received = true;
 					} else {
-						if (callback_object->prev_seqnum+1 != i_seqnum) {
+						if ((uint16_t)(callback_object->prev_seqnum+1) != i_seqnum) {
 							rist_log(&logging_settings, RIST_LOG_ERROR, "Sequence Mismatch: Received Seq=%llu, "
-								"Expected Seq=%llu, NTP Timestamp=%llu\n", i_seqnum, callback_object->prev_seqnum+1, b->ts_ntp);
+								"Expected Seq=%llu, NTP Timestamp=%llu\n", i_seqnum, (uint16_t)(callback_object->prev_seqnum+1), b->ts_ntp);
 						}
 					}
 					callback_object->prev_seqnum = i_seqnum;
