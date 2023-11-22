@@ -163,6 +163,8 @@ struct rist_callback_object {
 	struct rist_udp_config *udp_config[MAX_OUTPUT_COUNT];
 	uint16_t i_seqnum[MAX_OUTPUT_COUNT];
 	struct rist_ctx *receiver_ctx;
+	uint16_t prev_seqnum;
+	bool first_seqnum_received;
 #ifdef USE_TUN
 	int tun;
 	int tun_mode;
@@ -258,6 +260,15 @@ static int cb_recv(void *arg, struct rist_data_block *b)
 					// Set RTP header (mpegts)
 					uint16_t i_seqnum = udp_config->rtp_sequence ? (uint16_t)b->seq : callback_object->i_seqnum[i]++;
 					uint32_t i_timestamp = risttools_convertNTPtoRTP(b->ts_ntp);
+					if (!callback_object->first_seqnum_received) {
+						callback_object->first_seqnum_received = true;
+					} else {
+						if ((uint16_t)(callback_object->prev_seqnum+1) != i_seqnum) {
+							rist_log(&logging_settings, RIST_LOG_ERROR, "Sequence Mismatch: Received Seq=%llu, "
+								"Expected Seq=%llu, NTP Timestamp=%llu\n", i_seqnum, (uint16_t)(callback_object->prev_seqnum+1), b->ts_ntp);
+						}
+					}
+					callback_object->prev_seqnum = i_seqnum;
 					uint8_t ptype = 0x21;
 					if (udp_config->rtp_ptype != 0)
 						ptype = udp_config->rtp_ptype;
